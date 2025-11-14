@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mini E-Commerce Portal (HTML/CSS/JS)</title>
+  <style>
+    :root{
+      --accent:#5a2fff;
+      --accent-dark:#4320c9;
+      --text:#1a1a1a;
+      --muted:#757a80;
+      --bg:#f4f6ff;
+      --card:#ffffff;
+      --shadow:0 4px 14px rgba(0,0,0,0.08);
+      font-family: 'Poppins', sans-serif;
+    }
+    body{margin:0;background:var(--bg);color:var(--text);}
+    .container{max-width:1200px;margin:auto;padding:20px;}
+
+    /* Header */
+    header{display:flex;align-items:center;justify-content:space-between;padding:14px 0;}
+    nav ul{display:flex;list-style:none;gap:16px;margin:0;padding:0;}
+    nav a{text-decoration:none;color:var(--text);font-weight:500;padding:8px 14px;border-radius:8px;transition:0.3s;}
+    nav a:hover, nav a.active{background:var(--accent);color:white;box-shadow:var(--shadow);}
+
+    .grid{display:grid;grid-template-columns:1fr 330px;gap:22px;margin-top:20px;}
+    .card{background:var(--card);padding:18px;border-radius:14px;box-shadow:var(--shadow);transition:0.3s;}
+    .card:hover{transform:translateY(-3px);}
+
+    /* Product Cards */
+    .products{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px;}
+    .product{background:white;padding:14px;border-radius:14px;border:1px solid #e4e6ef;box-shadow:var(--shadow);transition:0.3s;cursor:pointer;}
+    .product:hover{transform:scale(1.03);}
+    .product h4{margin:10px 0 4px;font-weight:600;}
+    .product .price{color:var(--accent);font-weight:700;margin-top:6px;}
+
+    button{padding:8px 14px;border-radius:8px;border:none;cursor:pointer;font-weight:500;transition:0.3s;}
+    button:hover{opacity:0.85;}
+    .btn-ghost{background:white;border:1px solid var(--accent);color:var(--accent);}
+    .btn-ghost:hover{background:var(--accent);color:white;}
+
+    /* Lists */
+    .list-item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid #eceef7;}
+
+    /* Tabs */
+    .tabs{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+    .tab{padding:8px 14px;border-radius:8px;background:white;border:1px solid #ddd;cursor:pointer;transition:0.3s;}
+    .tab.active{background:var(--accent);color:white;border:none;}
+
+    input,select,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid #ccd2e0;margin-top:6px;transition:0.3s;}
+    input:focus,select:focus,textarea:focus{border-color:var(--accent);outline:none;box-shadow:var(--shadow);}
+
+    footer{text-align:center;margin-top:20px;color:var(--muted);font-size:13px;}
+    @media(max-width:900px){.grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <svg width="36" height="36" viewBox="0 0 24 24"><rect rx="6" width="24" height="24" fill="var(--accent)"/></svg>
+        <div>
+          <h1>ShopEasy</h1>
+          <div class="muted">Mini E-Commerce Portal</div>
+        </div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#home" class="navlink active">Home</a></li>
+          <li><a href="#products" class="navlink">Products</a></li>
+          <li><a href="#contact" class="navlink">Contact Us</a></li>
+          <li><a href="#about" class="navlink">About Us</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="grid">
+      <section>
+        <!-- Home / Products / Forms -->
+        <div id="home" class="card">
+          <h2>Welcome to ShopEasy</h2>
+          <p class="muted">A small demo e-commerce portal built with HTML, CSS and JavaScript. Use the forms on the right to register / login, browse products, add to wishlist or orders, and try out reviews and reporting features.</p>
+          <div class="tabs">
+            <div class="tab active" data-target="products">Products</div>
+            <div class="tab" data-target="orders">My Orders</div>
+            <div class="tab" data-target="wishlist">Wishlist</div>
+            <div class="tab" data-target="reviews">Comments & Reviews</div>
+            <div class="tab" data-target="support">Customer Care & Reporting</div>
+          </div>
+
+          <div id="products" class="section-block" style="margin-top:12px">
+            <h3>Products</h3>
+            <div class="products" id="product-list"></div>
+          </div>
+
+          <div id="orders" class="section-block hidden" style="margin-top:12px">
+            <h3>Orders</h3>
+            <div id="orders-list" class="card">No orders yet.</div>
+          </div>
+
+          <div id="wishlist" class="section-block hidden" style="margin-top:12px">
+            <h3>Wishlist</h3>
+            <div id="wishlist-list" class="card">No wishlist items yet.</div>
+          </div>
+
+          <div id="reviews" class="section-block hidden" style="margin-top:12px">
+            <h3>Comments & Reviews</h3>
+            <div>
+              <div>
+                <label for="reviewProduct">Product</label>
+                <select id="reviewProduct"></select>
+                <label for="reviewText">Comment / Review</label>
+                <textarea id="reviewText" rows="3"></textarea>
+                <div class="row" style="margin-top:8px">
+                  <div class="col">
+                    <label for="rating">Rating (1-5)</label>
+                    <input id="rating" type="number" min="1" max="5" value="5" />
+                  </div>
+                  <div class="col" style="display:flex;align-items:flex-end">
+                    <button id="postReview" class="btn-ghost">Post Review</button>
+                  </div>
+                </div>
+              </div>
+              <div id="reviews-list" style="margin-top:12px">No reviews yet.</div>
+            </div>
+          </div>
+
+          <div id="support" class="section-block hidden" style="margin-top:12px">
+            <h3>Customer Care & Reporting</h3>
+            <div class="row">
+              <div class="col card">
+                <h4>Contact Support</h4>
+                <label>Name</label>
+                <input id="supportName" />
+                <label>Email</label>
+                <input id="supportEmail" type="email" />
+                <label>Message</label>
+                <textarea id="supportMsg" rows="3"></textarea>
+                <button id="sendSupport" style="margin-top:8px">Send Message</button>
+                <div id="supportResult" class="muted" style="margin-top:8px"></div>
+              </div>
+              <div class="col card">
+                <h4>Report a Problem (Orders/Wishlist/Products)</h4>
+                <label>Type</label>
+                <select id="reportType"><option>Order</option><option>Wishlist</option><option>Product</option><option>Other</option></select>
+                <label>Reference ID (if any)</label>
+                <input id="reportRef" />
+                <label>Details</label>
+                <textarea id="reportDetails" rows="3"></textarea>
+                <button id="sendReport" style="margin-top:8px">Report</button>
+                <div id="reportResult" class="muted" style="margin-top:8px"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div id="products" class="card" style="margin-top:12px">
+          <h3>Quick Product Browse</h3>
+          <p class="muted">Click "Add to Wishlist" or "Buy" to add items. Orders & wishlist are stored in your browser (localStorage).</p>
+          <!-- small product cards show here as well -->
+        </div>
+
+        <footer>
+          © <span id="year"></span> ShopEasy — Demo portal. Not for production.
+        </footer>
+      </section>
+
+      <aside>
+        <!-- Right column: Login / Register / Profile -->
+        <div class="card">
+          <div id="auth-area">
+            <h3 id="authTitle">Register</h3>
+            <form id="registerForm">
+              <label>Full name</label>
+              <input id="regName" required />
+              <label>Email</label>
+              <input id="regEmail" type="email" required />
+              <label>Password</label>
+              <input id="regPassword" type="password" required />
+              <label>Confirm Password</label>
+              <input id="regPassword2" type="password" required />
+              <div id="regError" class="error hidden"></div>
+              <button type="submit" style="margin-top:12px">Create account</button>
+            </form>
+
+            <hr style="margin:12px 0"/>
+
+            <h3>Already have an account?</h3>
+            <form id="loginForm">
+              <label>Email</label>
+              <input id="loginEmail" type="email" required />
+              <label>Password</label>
+              <input id="loginPassword" type="password" required />
+              <div id="loginError" class="error hidden"></div>
+              <button type="submit" style="margin-top:12px">Login</button>
+            </form>
+          </div>
+
+          <div id="profile-area" class="hidden">
+            <h3>Profile</h3>
+            <div id="profileName" class="muted"></div>
+            <div style="margin-top:8px">
+              <button id="logoutBtn" class="btn-ghost">Logout</button>
+              <button id="viewOrdersBtn" class="btn-ghost">My Orders</button>
+            </div>
+            <div style="margin-top:12px">
+              <h4>Reporting quick links</h4>
+              <button id="quickReportOrder" class="btn-ghost">Report Order</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <h4>Quick Filters</h4>
+          <div class="small">Sort by:</div>
+          <div class="row" style="margin-top:8px">
+            <select id="sortSel">
+              <option value="default">Default</option>
+              <option value="price-asc">Price Low to High</option>
+              <option value="price-desc">Price High to Low</option>
+            </select>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script>
+    // ====== Demo Data & Helpers ======
+    const sampleProducts = [
+      {id: 'p1', name: 'Wireless Headphones', price: 1499, desc: 'Comfortable over-ear, 20h battery'},
+      {id: 'p2', name: 'Smart Watch', price: 2999, desc: 'Heart-rate + notifications'},
+      {id: 'p3', name: 'Bluetooth Speaker', price: 899, desc: 'Portable speaker 10W'},
+      {id: 'p4', name: 'Laptop Backpack', price: 1999, desc: 'Water resistant, 15 inch'},
+      {id: 'p5', name: 'Gaming Mouse', price: 599, desc: '16000 DPI, RGB lighting'}
+    ];
+
+    // LocalStorage keys
+    const LS_USERS = 'se_users';
+    const LS_SESSION = 'se_session';
+    const LS_ORDERS = 'se_orders';
+    const LS_WISHLIST = 'se_wishlist';
+    const LS_REVIEWS = 'se_reviews';
+
+    function $(id){return document.getElementById(id)}
+
+    // initialize
+    document.addEventListener('DOMContentLoaded', ()=>{
+      $('year').textContent = new Date().getFullYear();
+      renderProducts(sampleProducts);
+      populateReviewProductSelect();
+      loadFromStorage();
+      setupNav();
+      setupTabs();
+      setupForms();
+    })
+
+    // ====== Navigation & Tabs ======
+    function setupNav(){
+      document.querySelectorAll('.navlink').forEach(a=>{
+        a.addEventListener('click', (e)=>{
+          document.querySelectorAll('.navlink').forEach(x=>x.classList.remove('active'));
+          e.target.classList.add('active');
+        })
+      })
+    }
+
+    function setupTabs(){
+      document.querySelectorAll('.tab').forEach(t => {
+        t.addEventListener('click', ()=>{
+          document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+          t.classList.add('active');
+          const target = t.dataset.target;
+          document.querySelectorAll('.section-block').forEach(sb=>sb.classList.add('hidden'));
+          document.getElementById(target).classList.remove('hidden');
+        })
+      })
+    }
+
+    // ====== Product rendering & actions ======
+    function renderProducts(list){
+      const container = $('product-list');
+      container.innerHTML = '';
+      list.forEach(p=>{
+        const div = document.createElement('div');
+        div.className = 'product';
+        div.innerHTML = `
+          <div style="height:110px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#f8fafc"> <strong>${p.name}</strong></div>
+          <h4>${p.name}</h4>
+          <div class="muted small">${p.desc}</div>
+          <div class="price">₹ ${p.price}</div>
+          <div style="display:flex;gap:8px">
+            <button onclick="addToWishlist('${p.id}')" class="btn-ghost">Add to Wishlist</button>
+            <button onclick="buyNow('${p.id}')">Buy</button>
+          </div>
+        `;
+        container.appendChild(div);
+      })
+
+      // update product selects/listings
+      populateReviewProductSelect();
+      renderWishlist();
+      renderOrders();
+      renderReviews();
+    }
+
+    function findProduct(id){return sampleProducts.find(p=>p.id===id)}
+
+    function addToWishlist(pid){
+      const w = JSON.parse(localStorage.getItem(LS_WISHLIST) || '[]');
+      if(!w.includes(pid)) { w.push(pid); localStorage.setItem(LS_WISHLIST, JSON.stringify(w)); }
+      renderWishlist();
+      alert('Added to wishlist')
+    }
+
+    function buyNow(pid){
+      // create a simple order with generated id
+      const orders = JSON.parse(localStorage.getItem(LS_ORDERS) || '[]');
+      const ord = { id: 'O'+Date.now(), productId: pid, date: new Date().toISOString() };
+      orders.push(ord);
+      localStorage.setItem(LS_ORDERS, JSON.stringify(orders));
+      renderOrders();
+      alert('Order placed: ' + ord.id)
+    }
+
+    // ====== Orders & Wishlist rendering ======
+    function renderOrders(){
+      const list = JSON.parse(localStorage.getItem(LS_ORDERS) || '[]');
+      const target = $('orders-list');
+      if(!list.length){ target.innerHTML = '<div class="muted">No orders yet.</div>'; return; }
+      target.innerHTML = '<div>' + list.map(o=>{
+        const p = findProduct(o.productId);
+        return `\n          <div class="list-item">\n            <div>\n              <div><strong>${p.name}</strong></div>\n              <div class="muted small">Order: ${o.id} • ${new Date(o.date).toLocaleString()}</div>\n            </div>\n            <div style=\"display:flex;gap:8px\">\n              <button class=\"btn-ghost\" onclick=\"reportRef('Order','${o.id}')\">Report</button>\n            </div>\n          </div>\n        `}).join('') + '</div>';
+    }
+
+    function renderWishlist(){
+      const w = JSON.parse(localStorage.getItem(LS_WISHLIST) || '[]');
+      const target = $('wishlist-list');
+      if(!w.length){ target.innerHTML = '<div class="muted">No wishlist items yet.</div>'; return; }
+      target.innerHTML = '<div>' + w.map(pid=>{
+        const p = findProduct(pid);
+        return `\n          <div class=\"list-item\">\n            <div><strong>${p.name}</strong><div class=\"muted small\">₹ ${p.price}</div></div>\n            <div style=\"display:flex;gap:8px\">\n              <button class=\"btn-ghost\" onclick=\"buyNow('${p.id}')\">Buy</button>\n              <button class=\"btn-ghost danger\" onclick=\"removeFromWishlist('${p.id}')\">Remove</button>\n            </div>\n          </div>\n        `}).join('') + '</div>';
+    }
+    function removeFromWishlist(pid){
+      let w = JSON.parse(localStorage.getItem(LS_WISHLIST) || '[]');
+      w = w.filter(x=>x!==pid);
+      localStorage.setItem(LS_WISHLIST, JSON.stringify(w));
+      renderWishlist();
+    }
+
+    // ====== Reviews ======
+    function populateReviewProductSelect(){
+      const sel = $('reviewProduct');
+      if(!sel) return;
+      sel.innerHTML = sampleProducts.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
+    }
+
+    function postReview(){
+      const pid = $('reviewProduct').value;
+      const txt = $('reviewText').value.trim();
+      const rating = Number($('rating').value) || 5;
+      if(!txt){ alert('Please write a review'); return; }
+      const reviews = JSON.parse(localStorage.getItem(LS_REVIEWS) || '[]');
+      reviews.push({id:'R'+Date.now(), productId:pid, text:txt, rating:rating, date:new Date().toISOString()});
+      localStorage.setItem(LS_REVIEWS, JSON.stringify(reviews));
+      $('reviewText').value='';
+      renderReviews();
+    }
+
+    function renderReviews(){
+      const reviews = JSON.parse(localStorage.getItem(LS_REVIEWS) || '[]');
+      const target = $('reviews-list');
+      if(!target) return;
+      if(!reviews.length) { target.innerHTML = '<div class="muted">No reviews yet.</div>'; return; }
+      target.innerHTML = reviews.map(r=>{
+        const p = findProduct(r.productId);
+        return `\n          <div class=\"card\" style=\"margin-bottom:8px;padding:10px\">\n            <div style=\"display:flex;justify-content:space-between\">\n              <div><strong>${p.name}</strong> <span class=\"muted small\">• ${new Date(r.date).toLocaleString()}</span></div>\n              <div class=\"pill\">${r.rating} ★</div>\n            </div>\n            <div style=\"margin-top:6px\">${escapeHtml(r.text)}</div>\n          </div>\n        `}).join('');
+    }
+
+    // ====== Customer support & reporting ======
+    $('sendSupport')?.addEventListener('click', ()=>{
+      const nm = $('supportName').value.trim();
+      const email = $('supportEmail').value.trim();
+      const msg = $('supportMsg').value.trim();
+      if(!nm || !email || !msg) { $('supportResult').textContent = 'Please fill all fields.'; return; }
+      $('supportResult').textContent = 'Message sent. Support will contact you at ' + email;
+      $('supportName').value='';$('supportEmail').value='';$('supportMsg').value='';
+    });
+
+    $('sendReport')?.addEventListener('click', ()=>{
+      const t = $('reportType').value;
+      const ref = $('reportRef').value.trim();
+      const details = $('reportDetails').value.trim();
+      if(!details) { $('reportResult').textContent = 'Please add details.'; return; }
+      $('reportResult').textContent = `Report submitted: ${t}${ref?(' • ref:'+ref):''}`;
+      $('reportRef').value='';$('reportDetails').value='';
+    });
+
+    function reportRef(type, ref){
+      $('reportType').value = type;
+      $('reportRef').value = ref;
+      $('reportDetails').value = `Reporting issue with ${type} ${ref}`;
+      // switch to support tab
+      document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+      document.querySelector('[data-target=support]').classList.add('active');
+      document.querySelectorAll('.section-block').forEach(sb=>sb.classList.add('hidden'));
+      document.getElementById('support').classList.remove('hidden');
+    }
+
+    // ====== Auth: Register/Login with basic validation ======
+    function setupForms(){
+      $('registerForm').addEventListener('submit', e=>{
+        e.preventDefault();
+        const name = $('regName').value.trim();
+        const email = $('regEmail').value.trim().toLowerCase();
+        const pw = $('regPassword').value;
+        const pw2 = $('regPassword2').value;
+        const err = $('regError'); err.classList.add('hidden'); err.textContent='';
+        if(!name || !email || !pw) { err.textContent = 'Please fill all required fields.'; err.classList.remove('hidden'); return; }
+        if(!validateEmail(email)) { err.textContent = 'Invalid email.'; err.classList.remove('hidden'); return; }
+        if(pw.length < 6) { err.textContent = 'Password must be at least 6 characters.'; err.classList.remove('hidden'); return; }
+        if(pw !== pw2) { err.textContent = 'Passwords do not match.'; err.classList.remove('hidden'); return; }
+
+        // save user
+        const users = JSON.parse(localStorage.getItem(LS_USERS) || '[]');
+        if(users.some(u=>u.email === email)){ err.textContent = 'Email already registered.'; err.classList.remove('hidden'); return; }
+        users.push({id:'U'+Date.now(), name, email, password:pw});
+        localStorage.setItem(LS_USERS, JSON.stringify(users));
+        alert('Registration successful — you can login now.');
+        $('registerForm').reset();
+      });
+
+      $('loginForm').addEventListener('submit', e=>{
+        e.preventDefault();
+        const email = $('loginEmail').value.trim().toLowerCase();
+        const pw = $('loginPassword').value;
+        const err = $('loginError'); err.classList.add('hidden'); err.textContent='';
+        if(!email || !pw) { err.textContent = 'Please enter credentials.'; err.classList.remove('hidden'); return; }
+        const users = JSON.parse(localStorage.getItem(LS_USERS) || '[]');
+        const user = users.find(u=>u.email===email && u.password===pw);
+        if(!user){ err.textContent = 'Invalid email or password.'; err.classList.remove('hidden'); return; }
+        localStorage.setItem(LS_SESSION, JSON.stringify({id:user.id,email:user.email,name:user.name}));
+        afterLogin();
+      });
+
+      $('postReview').addEventListener('click', postReview);
+      $('viewOrdersBtn').addEventListener('click', ()=>{
+        document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+        document.querySelector('[data-target=orders]').classList.add('active');
+        document.querySelectorAll('.section-block').forEach(sb=>sb.classList.add('hidden'));
+        document.getElementById('orders').classList.remove('hidden');
+      });
+      $('logoutBtn').addEventListener('click', ()=>{ localStorage.removeItem(LS_SESSION); loadFromStorage(); });
+      $('quickReportOrder').addEventListener('click', ()=>{ reportRef('Order',''); });
+      $('sortSel').addEventListener('change', ()=>{
+        const v = $('sortSel').value;
+        let list = [...sampleProducts];
+        if(v==='price-asc') list.sort((a,b)=>a.price-b.price);
+        if(v==='price-desc') list.sort((a,b)=>b.price-a.price);
+        renderProducts(list);
+      });
+    }
+
+    function afterLogin(){
+      const s = JSON.parse(localStorage.getItem(LS_SESSION));
+      if(!s) return;
+      $('auth-area').classList.add('hidden');
+      $('profile-area').classList.remove('hidden');
+      $('profileName').textContent = s.name + ' • ' + s.email;
+    }
+
+    function loadFromStorage(){
+      // ensure storage keys exist
+      if(!localStorage.getItem(LS_REVIEWS)) localStorage.setItem(LS_REVIEWS, JSON.stringify([]));
+      if(!localStorage.getItem(LS_ORDERS)) localStorage.setItem(LS_ORDERS, JSON.stringify([]));
+      if(!localStorage.getItem(LS_WISHLIST)) localStorage.setItem(LS_WISHLIST, JSON.stringify([]));
+      renderWishlist(); renderOrders(); renderReviews();
+      const session = JSON.parse(localStorage.getItem(LS_SESSION) || 'null');
+      if(session) afterLogin(); else { $('auth-area').classList.remove('hidden'); $('profile-area').classList.add('hidden'); }
+    }
+
+    // ====== Utilities ======
+    function validateEmail(e){
+      return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e);
+    }
+    function escapeHtml(text) {
+      const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+      return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+
+    // Expose some functions to inline onclicks
+    window.addToWishlist = addToWishlist;
+    window.buyNow = buyNow;
+    window.removeFromWishlist = removeFromWishlist;
+    window.reportRef = reportRef;
+
+  </script>
+</body>
+</html>

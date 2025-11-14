@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kamalesh E-Shop</title>
+  <link rel="stylesheet" href="style.css" />
+  <meta name="description" content="Premium e-commerce portal — stylish UI, products, wishlist, orders, reviews (client-side demo)." />
+</head>
+<body>
+  <div class="page-bg"></div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <div class="logo-glow"><span class="logo-icon">A</span></div>
+        <div class="brand-text"><span class="brand-name">Kamalesh E-Shop</span><span class="brand-sub">Premium Demo</span></div>
+      </a>
+
+      <nav class="main-nav">
+  <ul>
+    <li><a href="#home" class="nav-link active">Home</a></li>
+    <li><a href="#products" class="nav-link">Products</a></li>
+    <li><a href="#reviews" class="nav-link">Reviews</a></li>
+    <li><a href="#support" class="nav-link">Support</a></li>
+    <li><a href="#about" class="nav-link">About</a></li>
+    <li><a href="#contact" class="nav-link">Contact</a></li>
+    <li><a href="login.html" class="nav-cta">Login</a></li>
+  </ul>
+</nav>
+
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- HERO -->
+    <section id="home" class="hero card glass">
+      <div class="hero-left">
+        <h1>Welcome to <span class="accent">Kamalesh E-Shop</span></h1>
+        <p class="lead">Shop smart, shop stylish — your fashion journey begins here..</p>
+        <div class="hero-actions">
+          <a href="#products" class="btn btn-primary">Shop Products</a>
+          <button id="openQuickRegister" class="btn btn-ghost">Create Account</button>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="promo-card">
+          <div class="promo-tag">LIMITED</div>
+          <h3>Neon Sale</h3>
+          <p class="muted">Up to 30% off on selected accessories. Live demo — client-side only.</p>
+          <div class="price">Starts ₹499</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="products" class="section">
+      <div class="section-head">
+        <h2>Featured Products</h2>
+        <div class="controls">
+          <select id="sortSel" class="select">
+            <option value="default">Sort: Default</option>
+            <option value="price-asc">Price — Low to High</option>
+            <option value="price-desc">Price — High to Low</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="productGrid" class="product-grid"></div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section id="reviews" class="section">
+      <h2>Comments & Reviews</h2>
+      <div class="reviews-wrap">
+        <div class="review-form card glass">
+          <h3>Post a review</h3>
+          <label>Product</label>
+          <select id="reviewProduct"></select>
+          <label>Rating</label>
+          <div class="rating-row">
+            <input id="rating" type="range" min="1" max="5" value="5" />
+            <span id="ratingValue">5</span>
+          </div>
+          <label>Comment</label>
+          <textarea id="reviewText" rows="4" placeholder="Share your thoughts..."></textarea>
+          <div class="row gap">
+            <button id="postReview" class="btn btn-primary">Post Review</button>
+            <button id="clearReviews" class="btn btn-ghost">Clear Reviews</button>
+          </div>
+        </div>
+
+        <div id="reviewsList" class="reviews-list"></div>
+      </div>
+    </section>
+
+    <!-- SUPPORT -->
+    <section id="support" class="section">
+      <h2>Customer Care & Reporting</h2>
+      <div class="support-grid">
+        <div class="card glass">
+          <h3>Contact Support</h3>
+          <label>Name</label><input id="supportName" placeholder="Your name" />
+          <label>Email</label><input id="supportEmail" type="email" placeholder="you@example.com" />
+          <label>Message</label><textarea id="supportMsg" rows="3"></textarea>
+          <div class="row gap">
+            <button id="sendSupport" class="btn btn-primary">Send Message</button>
+            <div id="supportResult" class="muted small"></div>
+          </div>
+        </div>
+
+        <div class="card glass">
+          <h3>Report an Issue</h3>
+          <label>Type</label>
+          <select id="reportType">
+            <option>Order</option>
+            <option>Wishlist</option>
+            <option>Product</option>
+            <option>Other</option>
+          </select>
+          <label>Reference ID (optional)</label><input id="reportRef" placeholder="O163452..." />
+          <label>Details</label><textarea id="reportDetails" rows="3"></textarea>
+          <div class="row gap">
+            <button id="sendReport" class="btn btn-primary">Submit Report</button>
+            <div id="reportResult" class="muted small"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ORDERS & WISHLIST QUICK -->
+    <section class="section">
+      <div class="quick-grid">
+        <div class="card glass">
+          <h3>Your Orders</h3>
+          <div id="ordersList" class="list-muted">No orders yet.</div>
+        </div>
+        <div class="card glass">
+          <h3>Your Wishlist</h3>
+          <div id="wishlistList" class="list-muted">No wishlist items yet.</div>
+        </div>
+      </div>
+    </section>
+
+<section id="about" class="section">
+  <div class="card glass">
+    <h2>About Kamalesh E-Shop</h2>
+    <p class="lead">
+     Kamalesh E-Shop is a stylish demo shopping platform built for learning web design and development. 
+      It demonstrates products, wishlist, orders, customer reviews, and support — all running on client-side.
+    </p>
+    <p class="muted">
+      This project is not connected to real payments or servers — everything is stored in localStorage for demonstration only.
+    </p>
+  </div>
+</section>
+
+<section id="contact" class="section">
+  <div class="card glass">
+    <h2>Contact Us</h2>
+    <label>Your Name</label>
+    <input type="text" placeholder="Enter your name">
+
+    <label>Your Email</label>
+    <input type="email" placeholder="Enter your email">
+
+    <label>Your Message</label>
+    <textarea rows="3" placeholder="Write your message..."></textarea>
+
+    <button class="btn btn-primary" style="margin-top:10px;">Send Message</button>
+  </div>
+</section>
+
+
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div>© <span id="year"></span> Kamalesh Premeium E-Shop. Not for production.</div>
+        <div class="muted">Built with ❤️</div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+

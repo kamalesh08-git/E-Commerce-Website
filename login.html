@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login — Kamalesh E-Shop</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="auth-page">
+    <div class="auth-card card glass">
+      <a href="index.html" class="brand small">
+        <div class="logo-glow small"><span class="logo-icon">A</span></div>
+        <div class="brand-text"><span class="brand-name">ShopAurora</span><span class="brand-sub">Premium Demo</span></div>
+      </a>
+
+      <h2>Welcome back</h2>
+      <p class="muted">Login to access orders, wishlist and post reviews.</p>
+
+      <form id="loginForm" class="form">
+        <label>Email</label><input id="loginEmail" type="email" required />
+        <label>Password</label><input id="loginPassword" type="password" required />
+        <div id="loginError" class="error hidden"></div>
+        <div class="row gap">
+          <button type="submit" class="btn btn-primary">Login</button>
+          <a href="register.html" class="btn btn-ghost">Create account</a>
+        </div>
+      </form>
+
+      <div class="muted small">This is a client-side demo. Credentials are stored in browser localStorage.</div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
